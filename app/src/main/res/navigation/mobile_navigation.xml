@@ -9,7 +9,11 @@
         android:id="@+id/navigation_search"
         android:name="com.itapps.moviescatalog.ui.search.SearchFragment"
         android:label="@string/title_search"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_navigation_search_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_watchlist"
@@ -22,4 +26,11 @@
         android:name="com.itapps.moviescatalog.ui.favorites.FavoritesFragment"
         android:label="@string/title_favorites"
         tools:layout="@layout/fragment_favorites" />
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="com.itapps.moviescatalog.ui.details.DetailsFragment"
+        tools:layout="@layout/fragment_details" >
+        <argument android:name="id"
+            app:argType="string" />
+    </fragment>
 </navigation>
