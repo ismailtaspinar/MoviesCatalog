@@ -6,32 +6,45 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.itapps.moviescatalog.adapter.FavoritesAdapter
+import com.itapps.moviescatalog.adapter.WatchListAdapter
 import com.itapps.moviescatalog.databinding.FragmentWatchlistBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class WatchListFragment : Fragment() {
 
     private var _binding: FragmentWatchlistBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
+    private val watchListViewModel : WatchListViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val dashboardViewModel =
-            ViewModelProvider(this).get(WatchListViewModel::class.java)
 
         _binding = FragmentWatchlistBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textDashboard
-        dashboardViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+        watchListViewModel.apply {
+            getWatchListMovies()
+            movies.observe(viewLifecycleOwner){movies ->
+                binding.movieRecycler.apply {
+                    layoutManager = LinearLayoutManager(context)
+                    setHasFixedSize(true)
+                    addItemDecoration(
+                        DividerItemDecoration(context, LinearLayoutManager.VERTICAL)
+                    )
+                    adapter = WatchListAdapter(movies)
+                }
+            }
         }
+
         return root
     }
 

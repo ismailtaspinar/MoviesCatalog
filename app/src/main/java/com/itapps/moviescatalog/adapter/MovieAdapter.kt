@@ -40,6 +40,7 @@ class MovieAdapter(private val movieList: List<Movie>) :
              movieItemBinding.root.setOnClickListener {
                  val bundle = Bundle()
                  bundle.putString("id",item.id)
+                 bundle.putBoolean("isSaved",false)
                  navController.navigate(R.id.action_navigation_search_to_detailsFragment,bundle)
              }
         }

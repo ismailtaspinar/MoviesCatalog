@@ -39,21 +39,13 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-        navController.addOnDestinationChangedListener(object : NavController.OnDestinationChangedListener{
-            override fun onDestinationChanged(
-                controller: NavController,
-                destination: NavDestination,
-                arguments: Bundle?
-            ) {
-                if(destination.id == R.id.detailsFragment){
-                    binding.navView.visibility = View.GONE
-                }
-                else{
-                    binding.navView.visibility = View.VISIBLE
-                }
+        navController.addOnDestinationChangedListener { controller, destination, arguments ->
+            if (destination.id == R.id.detailsFragment) {
+                binding.navView.visibility = View.GONE
+            } else {
+                binding.navView.visibility = View.VISIBLE
             }
-
-        })
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {

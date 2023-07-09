@@ -19,18 +19,29 @@
         android:id="@+id/navigation_watchlist"
         android:name="com.itapps.moviescatalog.ui.watch_list.WatchListFragment"
         android:label="@string/title_watch_list"
-        tools:layout="@layout/fragment_watchlist" />
+        tools:layout="@layout/fragment_watchlist" >
+        <action
+            android:id="@+id/action_navigation_watchlist_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_favorites"
         android:name="com.itapps.moviescatalog.ui.favorites.FavoritesFragment"
         android:label="@string/title_favorites"
-        tools:layout="@layout/fragment_favorites" />
+        tools:layout="@layout/fragment_favorites" >
+        <action
+            android:id="@+id/action_navigation_favorites_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/detailsFragment"
         android:name="com.itapps.moviescatalog.ui.details.DetailsFragment"
         tools:layout="@layout/fragment_details" >
         <argument android:name="id"
             app:argType="string" />
+        <argument
+            android:name="isSaved"
+            app:argType="boolean" />
     </fragment>
 </navigation>

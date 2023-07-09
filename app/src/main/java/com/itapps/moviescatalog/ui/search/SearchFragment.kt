@@ -25,7 +25,7 @@ class SearchFragment : Fragment() {
 
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
-    private val searchViewModel : SearchViewModel by activityViewModels()
+    private val searchViewModel : SearchViewModel by viewModels()
     private val movieList = mutableListOf<Movie>()
 
     override fun onCreateView(

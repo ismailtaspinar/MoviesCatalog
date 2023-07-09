@@ -10,4 +10,5 @@
     <color name="text_black">#2B2D42</color>
     <color name="dark_gray">#ADB5BD</color>
     <color name="yellow">#E6B91E</color>
+    <color name="red">#D30000</color>
 </resources>
