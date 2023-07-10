@@ -1,11 +1,16 @@
 package com.itapps.moviescatalog.data.repository
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.PagingSource
+import com.itapps.moviescatalog.common.Constants.API_KEY
 import com.itapps.moviescatalog.common.Resource
 import com.itapps.moviescatalog.data.model.Movie
-import com.itapps.moviescatalog.data.model.MovieResponse
 import com.itapps.moviescatalog.domain.repository.MovieRepository
 import com.itapps.moviescatalog.domain.source.LocalDataSource
 import com.itapps.moviescatalog.domain.source.RemoteDataSource
+import com.itapps.moviescatalog.utils.MoviePagingSource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -15,15 +20,23 @@ class MovieRepoImpl(
     private val remoteDataSource: RemoteDataSource,
     private val localDataSource: LocalDataSource
     ) : MovieRepository {
-    override fun fetchMovies(query: String): Flow<Resource<MovieResponse>>  = flow {
-        emit(Resource.Loading)
-        try {
-            val result = remoteDataSource.fetchMovies(query)
-            emit(Resource.Success(result))
-        }catch (e:Exception){
-            emit(Resource.Error(e))
+
+    override fun fetchMovies(query: String): Flow<PagingData<Movie>> {
+        val pagingConfig = PagingConfig(
+            pageSize = 20,
+            enablePlaceholders = false
+        )
+
+        val pagingSourceFactory: () -> PagingSource<Int, Movie> = {
+            MoviePagingSource(remoteDataSource, API_KEY, query)
         }
+
+        return Pager(
+            config = pagingConfig,
+            pagingSourceFactory = pagingSourceFactory
+        ).flow
     }
+
 
     override fun fetchDetails(id: String): Flow<Resource<Movie>> = flow {
         emit(Resource.Loading)

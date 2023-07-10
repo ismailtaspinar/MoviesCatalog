@@ -11,8 +11,10 @@ import retrofit2.http.Query
 interface MovieService {
     @GET(SEARCH)
     suspend fun fetchMovies(
-        @Query("api_key") api_key : String
-        ,@Query("query") query : String
+        @Query("api_key") api_key : String,
+        @Query("query") query : String,
+        @Query("page") page: Int,
+        @Query("per_page") perPage: Int
     ) : MovieResponse
 
     @GET(DETAILS)

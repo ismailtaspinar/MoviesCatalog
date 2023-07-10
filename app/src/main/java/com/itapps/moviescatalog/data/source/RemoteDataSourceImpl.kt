@@ -6,8 +6,8 @@ import com.itapps.moviescatalog.data.model.MovieResponse
 import com.itapps.moviescatalog.domain.source.RemoteDataSource
 
 class RemoteDataSourceImpl(private val movieService: MovieService) : RemoteDataSource {
-    override suspend fun fetchMovies(query: String): MovieResponse {
-        return movieService.fetchMovies(API_KEY,query)
+    override suspend fun fetchMovies(apiKey: String, query: String, page: Int, perPage: Int): MovieResponse {
+        return movieService.fetchMovies(apiKey, query, page, perPage)
     }
 
     override suspend fun fetchDetails(id: String): Movie {
