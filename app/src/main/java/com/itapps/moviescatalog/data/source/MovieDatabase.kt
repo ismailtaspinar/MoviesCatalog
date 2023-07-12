@@ -6,7 +6,7 @@ import com.itapps.moviescatalog.data.model.Movie
 
 @Database(
     entities = [Movie::class],
-    version = 3
+    version = 4
 )
 abstract class MovieDatabase : RoomDatabase() {
     abstract val movieDao : MovieDao

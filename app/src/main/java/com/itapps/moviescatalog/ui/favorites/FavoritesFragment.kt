@@ -10,7 +10,9 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.itapps.moviescatalog.adapter.FavoritesAdapter
 import com.itapps.moviescatalog.databinding.FragmentFavoritesBinding
+import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class FavoritesFragment : Fragment() {
@@ -18,6 +20,9 @@ class FavoritesFragment : Fragment() {
     private var _binding: FragmentFavoritesBinding? = null
     private val binding get() = _binding!!
     private val favoritesViewModel : FavoritesViewModel by viewModels()
+
+    @Inject
+    lateinit var picasso: Picasso
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,7 +43,7 @@ class FavoritesFragment : Fragment() {
                 addItemDecoration(
                     DividerItemDecoration(context, LinearLayoutManager.VERTICAL)
                 )
-                adapter = FavoritesAdapter(movies)
+                adapter = FavoritesAdapter(movies,picasso)
             }
         }
 

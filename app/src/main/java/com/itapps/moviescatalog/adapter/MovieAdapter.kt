@@ -9,12 +9,18 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.itapps.moviescatalog.R
+import com.itapps.moviescatalog.common.Constants.BASE_POSTER
 import com.itapps.moviescatalog.data.model.Movie
 import com.itapps.moviescatalog.databinding.MovieItemBinding
+import com.squareup.picasso.Picasso
 
-class MovieAdapter :
+
+
+
+class MovieAdapter(val picasso: Picasso) :
     PagingDataAdapter<Movie, MovieAdapter.ViewHolder>(MovieDiffCallback()) {
     private lateinit var movieItemBinding: MovieItemBinding
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         movieItemBinding = MovieItemBinding.inflate(LayoutInflater.from(parent.context))
@@ -23,7 +29,7 @@ class MovieAdapter :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position)!!)
+        holder.bind(getItem(position)!!,picasso)
     }
 
 
@@ -31,10 +37,13 @@ class MovieAdapter :
     class ViewHolder(val movieItemBinding: MovieItemBinding,val navController: NavController) : RecyclerView.ViewHolder(movieItemBinding.root){
 
 
-        fun bind(item : Movie){
+        fun bind(item : Movie,picasso: Picasso){
             movieItemBinding.text.text = item.title
+            picasso
+                .load(BASE_POSTER+item.poster_path)
+                .placeholder(R.drawable.image_file)
+                .into(movieItemBinding.image)
             setListeners(item)
-            println(item.title)
         }
         private fun setListeners(item : Movie){
              movieItemBinding.root.setOnClickListener {

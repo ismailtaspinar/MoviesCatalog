@@ -22,6 +22,8 @@ import com.itapps.moviescatalog.data.model.Movie
 import com.itapps.moviescatalog.databinding.FragmentDetailsBinding
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Job
+import javax.inject.Inject
 import kotlin.math.roundToInt
 
 @AndroidEntryPoint
@@ -32,6 +34,8 @@ class DetailsFragment : Fragment() {
     private val detailsViewModel : DetailsViewModel by viewModels()
     private lateinit var movie: Movie
     private var menuProvider: MenuProvider? = null
+    private var id : String = ""
+    @Inject lateinit var picasso: Picasso
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,10 +44,8 @@ class DetailsFragment : Fragment() {
 
         _binding = FragmentDetailsBinding.inflate(inflater,container,false)
 
-        val isSaved = arguments?.getBoolean("isSaved")
-        val id = arguments?.getString("id")
-
-        if(isSaved!!) detailsViewModel.getMovieById(id!!) else getDetails()
+        id = arguments?.getString("id")!!
+        isMovieExist()
 
         detailsViewModel.movie.observe(viewLifecycleOwner){
             movie = it
@@ -54,9 +56,7 @@ class DetailsFragment : Fragment() {
     }
 
     private fun getDetails(){
-        val id = arguments?.getString("id")
-
-        detailsViewModel.fetchDetails(id!!){
+        detailsViewModel.fetchDetails(id){
             when(it){
                 is Resource.Loading -> {
 
@@ -74,11 +74,32 @@ class DetailsFragment : Fragment() {
         }
     }
 
+    private fun isMovieExist() {
+        detailsViewModel.isMovieExist(id)
+        detailsViewModel.isExist.observe(viewLifecycleOwner){
+            when(it){
+                is Resource.Loading -> {
+
+                }
+                is Resource.Error -> {
+                    Toast.makeText(requireContext(),resources.getString(R.string.error_text),Toast.LENGTH_LONG).show()
+                }
+                is Resource.Success -> {
+                    if(it.response as Boolean){
+                        detailsViewModel.getMovieById(id)
+                    }
+                    else {
+                        getDetails()
+                    }
+                }
+            }
+        }
+    }
+
     private fun loadViews(movie : Movie) {
 
         binding.apply {
-            Picasso
-                .get()
+            picasso
                 .load(BASE_DETAILS+movie.backdrop_path)
                 .fit()
                 .into(image)
@@ -99,7 +120,7 @@ class DetailsFragment : Fragment() {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 menuInflater.inflate(R.menu.fav_menu, menu)
                 if(movie.isWatchList) {
-                   menu.getItem(0).applyColor(R.color.red)
+                   menu.getItem(0).applyColor(R.color.teal_700)
                 }
                 if(movie.isFavorite){
                    menu.getItem(1).applyColor(R.color.red)
@@ -110,26 +131,29 @@ class DetailsFragment : Fragment() {
                 // Validate and handle the selected menu item
                 when(menuItem.itemId){
                     R.id.watchlist_button -> {
-                            if(movie.isWatchList) {
-                                movie.isWatchList=false
-                                menuItem.applyColor(R.color.black)
-                            }
-                            else {
-                                movie.isWatchList=true
-                                menuItem.applyColor(R.color.red)
-                            }
-                            detailsViewModel.addMovie(movie)
+                        if(movie.isWatchList) {
+                            movie.isWatchList=false
+                            menuItem.applyColor(R.color.black)
+                            if(!movie.isFavorite) deleteMovie()
+                        }
+                        else {
+                            movie.isWatchList=true
+                            menuItem.applyColor(R.color.teal_700)
+                        }
+                        if(!movie.isFavorite && !movie.isWatchList) deleteMovie() else detailsViewModel.addMovie(movie)
+
                     }
                     R.id.fav_button -> {
-                            if(movie.isFavorite){
-                                movie.isFavorite=false
-                                menuItem.applyColor(R.color.black)
-                            }
-                            else {
-                                movie.isFavorite=true
-                                menuItem.applyColor(R.color.red)
-                            }
-                        detailsViewModel.addMovie(movie)
+                        if(movie.isFavorite){
+                            movie.isFavorite=false
+                            menuItem.applyColor(R.color.black)
+                            if(!movie.isWatchList) deleteMovie()
+                        }
+                        else {
+                            movie.isFavorite=true
+                            menuItem.applyColor(R.color.red)
+                        }
+                        if(!movie.isFavorite && !movie.isWatchList) deleteMovie() else detailsViewModel.addMovie(movie)
                     }
                     else ->{
                         val navController = findNavController()
@@ -140,15 +164,23 @@ class DetailsFragment : Fragment() {
                 return true
             }
         }
-        (requireActivity() as MenuHost).addMenuProvider(menuProvider!!, viewLifecycleOwner, Lifecycle.State.RESUMED)
+        (requireActivity() as MenuHost).addMenuProvider(
+            menuProvider!!, viewLifecycleOwner, Lifecycle.State.RESUMED
+        )
     }
 
     fun MenuItem.applyColor(color: Int) {
         icon?.setTint(resources.getColor(color,requireContext().theme))
     }
 
+    private fun deleteMovie(){
+        detailsViewModel.deleteMovie(movie)
+    }
+
+
     override fun onDestroyView() {
         super.onDestroyView()
+
         _binding = null
         if (menuProvider != null) {
             (requireActivity() as MenuHost).removeMenuProvider(menuProvider!!)

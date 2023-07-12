@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.room.Room
 import com.itapps.moviescatalog.data.source.MovieDao
 import com.itapps.moviescatalog.data.source.MovieDatabase
+import com.squareup.picasso.Picasso
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -27,5 +28,7 @@ object AppModule {
     @Provides
     @Singleton
     fun provideDao(db: MovieDatabase) : MovieDao = db.movieDao
+
+
 
 }

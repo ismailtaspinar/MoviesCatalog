@@ -12,7 +12,11 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.itapps.moviescatalog.adapter.MovieAdapter
 import com.itapps.moviescatalog.databinding.FragmentSearchBinding
+import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
+
+
 
 @AndroidEntryPoint
 class SearchFragment : Fragment() {
@@ -21,6 +25,9 @@ class SearchFragment : Fragment() {
     private val binding get() = _binding!!
     private val searchViewModel : SearchViewModel by viewModels()
     private lateinit var movieAdapter: MovieAdapter
+
+
+    @Inject lateinit var picasso: Picasso
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,7 +38,7 @@ class SearchFragment : Fragment() {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        movieAdapter = MovieAdapter()
+        movieAdapter = MovieAdapter(picasso)
 
         binding.movieRecycler.apply {
             layoutManager = LinearLayoutManager(context)

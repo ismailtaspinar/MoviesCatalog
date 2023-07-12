@@ -25,13 +25,4 @@ class SearchViewModel @Inject constructor(private val movieRepository: MovieRepo
          }
     }
 
-    fun isMovieExist(id:String) : Boolean = movieRepository.isMovieExists(id.toInt())
-
-    fun addMovie(movie: Movie) = viewModelScope.launch {
-        movieRepository.insertMovie(movie)
-    }
-
-    fun updateMovie(movie : Movie) = viewModelScope.launch {
-        movieRepository.updateMovie(movie)
-    }
 }

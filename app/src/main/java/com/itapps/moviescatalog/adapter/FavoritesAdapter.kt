@@ -12,7 +12,7 @@ import com.itapps.moviescatalog.data.model.Movie
 import com.itapps.moviescatalog.databinding.FavoriteItemBinding
 import com.squareup.picasso.Picasso
 
-class FavoritesAdapter(private val movieList: List<Movie>) :
+class FavoritesAdapter(private val movieList: List<Movie>,val picasso: Picasso) :
     RecyclerView.Adapter<FavoritesAdapter.ViewHolder>() {
 
 
@@ -26,7 +26,7 @@ class FavoritesAdapter(private val movieList: List<Movie>) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(movieList[position])
+        holder.bind(movieList[position],picasso)
     }
 
     class ViewHolder(
@@ -34,9 +34,9 @@ class FavoritesAdapter(private val movieList: List<Movie>) :
         val navController: NavController
         ) : RecyclerView.ViewHolder(favoriteItemBinding.root) {
 
-            fun bind(movie: Movie){
+            fun bind(movie: Movie,picasso: Picasso){
                 favoriteItemBinding.apply {
-                    Picasso.get().load(BASE_POSTER+movie.poster_path).into(image)
+                    picasso.load(BASE_POSTER+movie.poster_path).into(image)
                     title.text = movie.title
                     root.setOnClickListener {
                         val bundle = Bundle()

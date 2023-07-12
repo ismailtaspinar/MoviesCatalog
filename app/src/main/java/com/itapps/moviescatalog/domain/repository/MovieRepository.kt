@@ -14,7 +14,7 @@ interface MovieRepository {
 
     suspend fun getFavoriteMovies(): List<Movie>
 
-    fun isMovieExists(id: Int): Boolean
+    suspend fun isMovieExists(id: Int): Resource<Boolean>
 
     suspend fun getMovieById(id: Int): Movie?
 

@@ -61,7 +61,18 @@ class MovieRepoImpl(
     }
 
 
-    override fun isMovieExists(id: Int): Boolean = localDataSource.isMovieExists(id)
+    override suspend fun isMovieExists(id: Int): Resource<Boolean>  {
+        return withContext(Dispatchers.IO){
+            Resource.Loading
+            try {
+                val result = localDataSource.isMovieExists(id)
+                Resource.Success(result)
+            }catch (e:Exception){
+                Resource.Error(e)
+            }
+        }
+
+    }
 
     override suspend fun getMovieById(id: Int): Movie? {
         return withContext(Dispatchers.IO) {
@@ -76,16 +87,18 @@ class MovieRepoImpl(
     override suspend fun insertMovie(movie: Movie) {
         try {
             localDataSource.insertMovie(movie)
-            println("sucess")
-            println(movie)
         }catch (e:Exception){
-            println(e)
         }
 
     }
 
     override suspend fun deleteMovie(movie: Movie) {
-        localDataSource.deleteMovie(movie)
+        try {
+            localDataSource.deleteMovie(movie)
+            println("success")
+        }catch (e:Exception){
+            println(e)
+        }
     }
 
 }

@@ -10,7 +10,9 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.itapps.moviescatalog.adapter.WatchListAdapter
 import com.itapps.moviescatalog.databinding.FragmentWatchlistBinding
+import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class WatchListFragment : Fragment() {
@@ -18,6 +20,7 @@ class WatchListFragment : Fragment() {
     private var _binding: FragmentWatchlistBinding? = null
     private val binding get() = _binding!!
     private val watchListViewModel : WatchListViewModel by viewModels()
+    @Inject lateinit var picasso: Picasso
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,7 +40,7 @@ class WatchListFragment : Fragment() {
                     addItemDecoration(
                         DividerItemDecoration(context, LinearLayoutManager.VERTICAL)
                     )
-                    adapter = WatchListAdapter(movies)
+                    adapter = WatchListAdapter(movies,picasso)
                 }
             }
         }

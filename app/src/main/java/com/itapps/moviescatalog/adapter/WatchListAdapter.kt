@@ -13,7 +13,8 @@ import com.itapps.moviescatalog.databinding.WatchlistItemBinding
 import com.squareup.picasso.Picasso
 
 class WatchListAdapter(
-    private val movieList : List<Movie>
+    private val movieList : List<Movie>,
+    val picasso: Picasso
     ) : RecyclerView.Adapter<WatchListAdapter.ViewHolder>() {
 
 
@@ -23,7 +24,7 @@ class WatchListAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(movieList[position])
+        holder.bind(movieList[position],picasso)
     }
 
     override fun getItemCount(): Int {
@@ -35,9 +36,9 @@ class WatchListAdapter(
         val navController: NavController
     ) : RecyclerView.ViewHolder(watchlistItemBinding.root) {
 
-        fun bind(movie: Movie){
+        fun bind(movie: Movie,picasso: Picasso){
             watchlistItemBinding.apply {
-                Picasso.get().load(BASE_POSTER+movie.poster_path).into(image)
+                picasso.load(BASE_POSTER+movie.poster_path).into(image)
                 title.text = movie.title
                 root.setOnClickListener {
                     val bundle = Bundle()
