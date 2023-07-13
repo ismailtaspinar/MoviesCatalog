@@ -7,6 +7,7 @@ import androidx.paging.PagingSource
 import com.itapps.moviescatalog.common.Constants.API_KEY
 import com.itapps.moviescatalog.common.Resource
 import com.itapps.moviescatalog.data.model.Movie
+import com.itapps.moviescatalog.data.model.MovieResponse
 import com.itapps.moviescatalog.domain.repository.MovieRepository
 import com.itapps.moviescatalog.domain.source.LocalDataSource
 import com.itapps.moviescatalog.domain.source.RemoteDataSource
@@ -42,6 +43,36 @@ class MovieRepoImpl(
         emit(Resource.Loading)
         try {
             val result = remoteDataSource.fetchDetails(id)
+            emit(Resource.Success(result))
+        }catch (e:Exception){
+            emit(Resource.Error(e))
+        }
+    }
+
+    override fun fetchPlayingMovies(): Flow<Resource<MovieResponse>> = flow {
+        emit(Resource.Loading)
+        try {
+            val result = remoteDataSource.fetchPlayingMovies(API_KEY)
+            emit(Resource.Success(result))
+        }catch (e:Exception){
+            emit(Resource.Error(e))
+        }
+    }
+
+    override fun fetchUpcomingMovies(): Flow<Resource<MovieResponse>> = flow {
+        emit(Resource.Loading)
+        try {
+            val result = remoteDataSource.fetchUpcomingMovies(API_KEY)
+            emit(Resource.Success(result))
+        }catch (e:Exception){
+            emit(Resource.Error(e))
+        }
+    }
+
+    override fun fetchTopMovies(): Flow<Resource<MovieResponse>> = flow {
+        emit(Resource.Loading)
+        try {
+            val result = remoteDataSource.fetchTopMovies(API_KEY)
             emit(Resource.Success(result))
         }catch (e:Exception){
             emit(Resource.Error(e))
@@ -95,7 +126,6 @@ class MovieRepoImpl(
     override suspend fun deleteMovie(movie: Movie) {
         try {
             localDataSource.deleteMovie(movie)
-            println("success")
         }catch (e:Exception){
             println(e)
         }

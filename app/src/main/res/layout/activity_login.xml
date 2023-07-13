@@ -18,13 +18,14 @@
             android:id="@+id/welcomeTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
             android:layout_marginTop="10dp"
             android:gravity="center"
+            android:fontFamily="@font/bebas_neue"
             android:paddingHorizontal="24dp"
             android:paddingVertical="24dp"
-            android:text="MOVIE ASISTANT"
-            android:textSize="32sp" />
+            android:text="@string/movie_asistant"
+            android:textColor="@color/text_red"
+            android:textSize="45sp" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/userEmail"
@@ -45,6 +46,7 @@
                 android:id="@+id/user_email_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/black"
                 android:inputType="textEmailAddress" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -68,6 +70,7 @@
                 android:id="@+id/user_password_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/black"
                 android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -101,10 +104,11 @@
                 android:layout_gravity="start"
                 android:layout_weight="1"
                 android:height="24dp"
+                android:textColor="@color/white"
                 android:enabled="true"
                 android:textSize="14sp"
                 android:textAllCaps="false"
-                android:backgroundTint="@color/material_dynamic_primary40"
+                android:backgroundTint="@color/text_red"
                 android:text="@string/action_sign_in_short" />
 
 

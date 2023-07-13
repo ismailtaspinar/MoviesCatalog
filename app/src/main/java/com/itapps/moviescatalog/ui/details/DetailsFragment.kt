@@ -22,7 +22,6 @@ import com.itapps.moviescatalog.data.model.Movie
 import com.itapps.moviescatalog.databinding.FragmentDetailsBinding
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Job
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
@@ -122,8 +121,14 @@ class DetailsFragment : Fragment() {
                 if(movie.isWatchList) {
                    menu.getItem(0).applyColor(R.color.teal_700)
                 }
+                else {
+                    menu.getItem(0).applyColor(R.color.white)
+                }
                 if(movie.isFavorite){
                    menu.getItem(1).applyColor(R.color.red)
+                }
+                else {
+                    menu.getItem(1).applyColor(R.color.white)
                 }
             }
 
@@ -133,7 +138,7 @@ class DetailsFragment : Fragment() {
                     R.id.watchlist_button -> {
                         if(movie.isWatchList) {
                             movie.isWatchList=false
-                            menuItem.applyColor(R.color.black)
+                            menuItem.applyColor(R.color.white)
                             if(!movie.isFavorite) deleteMovie()
                         }
                         else {
@@ -146,7 +151,7 @@ class DetailsFragment : Fragment() {
                     R.id.fav_button -> {
                         if(movie.isFavorite){
                             movie.isFavorite=false
-                            menuItem.applyColor(R.color.black)
+                            menuItem.applyColor(R.color.white)
                             if(!movie.isWatchList) deleteMovie()
                         }
                         else {
@@ -180,7 +185,6 @@ class DetailsFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-
         _binding = null
         if (menuProvider != null) {
             (requireActivity() as MenuHost).removeMenuProvider(menuProvider!!)

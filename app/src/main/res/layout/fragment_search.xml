@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textInputlayout"
+        app:boxStrokeColor="@color/text_red"
         android:layout_margin="10dp"
         android:padding="3dp"
         app:layout_constraintTop_toTopOf="parent">

@@ -11,4 +11,7 @@
     <color name="dark_gray">#ADB5BD</color>
     <color name="yellow">#E6B91E</color>
     <color name="red">#D30000</color>
+    <color name="text_red">#E50914</color>
+    <color name="bar_black">#171A1F</color>
+    <color name="background_black">#323842</color>
 </resources>

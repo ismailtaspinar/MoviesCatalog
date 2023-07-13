@@ -14,4 +14,16 @@ class RemoteDataSourceImpl(private val movieService: MovieService) : RemoteDataS
         return movieService.fetchDetails(id, API_KEY)
     }
 
+    override suspend fun fetchPlayingMovies(apiKey: String): MovieResponse {
+        return movieService.fetchPlayingMovies(apiKey)
+    }
+
+    override suspend fun fetchUpcomingMovies(apiKey: String): MovieResponse {
+        return movieService.fetchUpcomingMovies(apiKey)
+    }
+
+    override suspend fun fetchTopMovies(apiKey: String): MovieResponse {
+        return movieService.fetchTopMovies(apiKey)
+    }
+
 }

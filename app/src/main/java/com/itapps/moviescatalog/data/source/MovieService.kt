@@ -2,6 +2,9 @@ package com.itapps.moviescatalog.data.source
 
 import com.itapps.moviescatalog.common.Constants.DETAILS
 import com.itapps.moviescatalog.common.Constants.SEARCH
+import com.itapps.moviescatalog.common.Constants.SLIDER
+import com.itapps.moviescatalog.common.Constants.TOP_RATED
+import com.itapps.moviescatalog.common.Constants.UPCOMING
 import com.itapps.moviescatalog.data.model.Movie
 import com.itapps.moviescatalog.data.model.MovieResponse
 import retrofit2.http.GET
@@ -22,4 +25,19 @@ interface MovieService {
         @Path("movie_id") id : String,
         @Query("api_key") api_key : String
     ) : Movie
+
+    @GET(SLIDER)
+    suspend fun fetchPlayingMovies(
+        @Query("api_key") api_key : String
+    ) : MovieResponse
+
+    @GET(UPCOMING)
+    suspend fun fetchUpcomingMovies(
+        @Query("api_key") api_key : String
+    ) : MovieResponse
+
+    @GET(TOP_RATED)
+    suspend fun fetchTopMovies(
+        @Query("api_key") api_key : String
+    ) : MovieResponse
 }

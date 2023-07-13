@@ -18,7 +18,6 @@ class LoginActivity : AppCompatActivity() {
 
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        goToMain()
         binding.apply {
             login.setOnClickListener {
                 if(isEmailValid(userEmailText.text.toString()) && userPasswordText.text?.isNotEmpty()!!){
