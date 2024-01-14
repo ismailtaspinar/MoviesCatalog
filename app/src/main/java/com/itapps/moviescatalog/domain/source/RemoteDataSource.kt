@@ -1,5 +1,6 @@
 package com.itapps.moviescatalog.domain.source
 
+import com.itapps.moviescatalog.data.model.GenreResponse
 import com.itapps.moviescatalog.data.model.Movie
 import com.itapps.moviescatalog.data.model.MovieResponse
 
@@ -13,4 +14,11 @@ interface RemoteDataSource {
     suspend fun fetchUpcomingMovies(apiKey: String) : MovieResponse
 
     suspend fun fetchTopMovies(apiKey: String) : MovieResponse
+
+    suspend fun getRecommendations(id : String) : MovieResponse
+
+    suspend fun getGenres() : GenreResponse
+
+    suspend fun discoverMovies(genres : String) : MovieResponse
+
 }

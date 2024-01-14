@@ -40,6 +40,9 @@
         <argument
             android:name="isSaved"
             app:argType="boolean" />
+        <action
+            android:id="@+id/action_detailsFragment_self"
+            app:destination="@id/detailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"

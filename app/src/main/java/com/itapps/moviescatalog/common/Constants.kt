@@ -10,6 +10,9 @@ object Constants {
     const val UPCOMING = "movie/upcoming"
     const val DETAILS = "movie/{movie_id}"
     const val TOP_RATED = "movie/top_rated"
+    const val GENRES = "genre/movie/list"
+    const val DISCOVER = "discover/movie"
+    const val RECOMMENDATIONS = "movie/{movie_id}/recommendations"
     const val API_KEY = BuildConfig.API_KEY
     const val BASE_DETAILS = "https://image.tmdb.org/t/p/w500"
     const val BASE_POSTER = "https://image.tmdb.org/t/p/w154"

@@ -11,15 +11,20 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
+import androidx.core.view.setPadding
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.onNavDestinationSelected
+import androidx.recyclerview.widget.GridLayoutManager
 import com.itapps.moviescatalog.R
+import com.itapps.moviescatalog.adapter.RecommendationsAdapter
 import com.itapps.moviescatalog.common.Constants.BASE_DETAILS
 import com.itapps.moviescatalog.common.Resource
 import com.itapps.moviescatalog.data.model.Movie
+import com.itapps.moviescatalog.data.model.MovieResponse
 import com.itapps.moviescatalog.databinding.FragmentDetailsBinding
+import com.itapps.moviescatalog.utils.addItemSpacing
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -33,6 +38,7 @@ class DetailsFragment : Fragment() {
     private val detailsViewModel : DetailsViewModel by viewModels()
     private lateinit var movie: Movie
     private var menuProvider: MenuProvider? = null
+    private lateinit var recommendedAdapter : RecommendationsAdapter
     private var id : String = ""
     @Inject lateinit var picasso: Picasso
 
@@ -50,8 +56,44 @@ class DetailsFragment : Fragment() {
             movie = it
             loadViews(movie)
         }
+        detailsViewModel.getRecommendations(id)
+        initObservers()
+        initAdapters()
 
         return binding.root
+    }
+
+    private fun initAdapters() {
+        val recommendedRecycler = binding.productRecycler
+        recommendedRecycler.setHasFixedSize(true)
+        recommendedRecycler.layoutManager = GridLayoutManager(context,2)
+        recommendedAdapter = RecommendationsAdapter(detailsViewModel.recommendedMovieList.value ?: emptyList())
+
+    }
+
+    private fun initObservers() {
+        detailsViewModel.recommendedMovies.observe(viewLifecycleOwner){recommendedMovies ->
+            when(recommendedMovies){
+                is Resource.Loading -> binding.progress.visibility = View.VISIBLE
+                is Resource.Success -> {
+                    val movieList = (recommendedMovies.response as MovieResponse).data
+                    if(movieList.isNullOrEmpty().not()){
+                        detailsViewModel.recommendedMovieList.postValue(movieList)
+                        val recommendedRecycler = binding.productRecycler
+                        recommendedRecycler.apply {
+                            setHasFixedSize(true)
+                            setPadding(20)
+                            addItemSpacing(40)
+                            layoutManager = GridLayoutManager(context,2)
+                        }
+                        recommendedAdapter = RecommendationsAdapter(movieList)
+                        recommendedRecycler.adapter = recommendedAdapter
+                        recommendedAdapter.notifyDataSetChanged()
+                    }
+                }
+                is Resource.Error -> binding.progress.visibility = View.GONE
+            }
+        }
     }
 
     private fun getDetails(){
@@ -191,5 +233,6 @@ class DetailsFragment : Fragment() {
             menuProvider = null
         }
     }
+
 
 }

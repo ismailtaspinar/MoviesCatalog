@@ -6,9 +6,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.itapps.moviescatalog.common.Resource
 import com.itapps.moviescatalog.data.model.Movie
+import com.itapps.moviescatalog.data.model.MovieResponse
 import com.itapps.moviescatalog.domain.repository.MovieRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,6 +24,12 @@ class DetailsViewModel @Inject constructor(
 
     private val _isExist = MutableLiveData<Resource<Boolean>>()
     val isExist : LiveData<Resource<Boolean>> get() = _isExist
+
+    private val _recommendedMovies = MutableLiveData<Resource<MovieResponse>>()
+    val recommendedMovies : LiveData<Resource<MovieResponse>> get() = _recommendedMovies
+
+
+    var recommendedMovieList = MutableLiveData<List<Movie>>(emptyList())
 
 
     fun fetchDetails(id : String,onComplete: (Resource<Movie>) -> Unit) = viewModelScope.launch {
@@ -44,5 +52,12 @@ class DetailsViewModel @Inject constructor(
 
     fun deleteMovie(movie: Movie) = viewModelScope.launch {
         movieRepository.deleteMovie(movie)
+    }
+
+    fun getRecommendations(id : String) = viewModelScope.launch {
+        movieRepository.getRecommendations(id).collect{
+            _recommendedMovies.postValue(it)
+        }
+
     }
 }

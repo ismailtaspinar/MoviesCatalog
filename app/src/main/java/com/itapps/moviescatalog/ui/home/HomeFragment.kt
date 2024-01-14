@@ -1,18 +1,14 @@
 package com.itapps.moviescatalog.ui.home
 
-import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.itapps.moviescatalog.R
 import com.itapps.moviescatalog.adapter.SliderAdapter
@@ -52,8 +48,31 @@ class HomeFragment : Fragment() {
         observeUpcomingMovies()
         observeMovies()
         observeTopRatedMovies()
+        observeDiscoveredMovies()
 
         return binding.root
+    }
+
+    private fun observeDiscoveredMovies() {
+        viewModel.discoveredMovies.observe(viewLifecycleOwner){
+            when(it){
+                is Resource.Loading -> {
+                    binding.loadingPanel.visibility = View.VISIBLE
+                }
+                is Resource.Error -> {
+                    binding.loadingPanel.visibility = View.GONE
+                }
+                is Resource.Success -> {
+                    val movies = (it.response as MovieResponse).data
+                    for(i in movies){
+                        val cardView = createCardView(
+                            i,R.layout.upcoming_item,binding.containerLayout
+                        )
+                        binding.discoveredContainerLayout.addView(cardView)
+                    }
+                }
+            }
+        }
     }
 
     private fun observeUpcomingMovies(){

@@ -1,6 +1,7 @@
 package com.itapps.moviescatalog.data.source
 
 import com.itapps.moviescatalog.common.Constants.API_KEY
+import com.itapps.moviescatalog.data.model.GenreResponse
 import com.itapps.moviescatalog.data.model.Movie
 import com.itapps.moviescatalog.data.model.MovieResponse
 import com.itapps.moviescatalog.domain.source.RemoteDataSource
@@ -24,6 +25,18 @@ class RemoteDataSourceImpl(private val movieService: MovieService) : RemoteDataS
 
     override suspend fun fetchTopMovies(apiKey: String): MovieResponse {
         return movieService.fetchTopMovies(apiKey)
+    }
+
+    override suspend fun getRecommendations(id: String): MovieResponse {
+        return movieService.getRecommendations(id,API_KEY)
+    }
+
+    override suspend fun getGenres(): GenreResponse {
+        return movieService.getGenres(API_KEY)
+    }
+
+    override suspend fun discoverMovies(genres: String): MovieResponse {
+        return movieService.discoverMovies(genres,API_KEY)
     }
 
 }

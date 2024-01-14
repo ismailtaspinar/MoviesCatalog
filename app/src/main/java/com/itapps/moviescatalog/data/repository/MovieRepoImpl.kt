@@ -6,6 +6,7 @@ import androidx.paging.PagingData
 import androidx.paging.PagingSource
 import com.itapps.moviescatalog.common.Constants.API_KEY
 import com.itapps.moviescatalog.common.Resource
+import com.itapps.moviescatalog.data.model.GenreResponse
 import com.itapps.moviescatalog.data.model.Movie
 import com.itapps.moviescatalog.data.model.MovieResponse
 import com.itapps.moviescatalog.domain.repository.MovieRepository
@@ -77,6 +78,38 @@ class MovieRepoImpl(
         }catch (e:Exception){
             emit(Resource.Error(e))
         }
+    }
+
+    override fun getGenres(): Flow<Resource<GenreResponse>>  = flow {
+        emit(Resource.Loading)
+        try {
+            val result = remoteDataSource.getGenres()
+            emit(Resource.Success(result))
+        } catch (e :Exception) {
+            emit(Resource.Error(e))
+        }
+    }
+
+    override fun getRecommendations(id: String): Flow<Resource<MovieResponse>> = flow {
+        emit(Resource.Loading)
+        try {
+            val result = remoteDataSource.getRecommendations(id)
+            emit(Resource.Success(result))
+        } catch (e : Exception) {
+            emit(Resource.Error(e))
+            println(e.message)
+        }
+    }
+
+    override fun discoverMovies(genres: String): Flow<Resource<MovieResponse>> = flow {
+        emit(Resource.Loading)
+        try {
+            val result = remoteDataSource.discoverMovies(genres)
+            emit(Resource.Success(result))
+        } catch (e : Exception) {
+            emit(Resource.Error(e))
+        }
+
     }
 
     override suspend fun getWatchListMovies(): List<Movie>  {
