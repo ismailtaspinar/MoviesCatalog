@@ -63,6 +63,7 @@ class HomeFragment : Fragment() {
                     binding.loadingPanel.visibility = View.GONE
                 }
                 is Resource.Success -> {
+                    binding.loadingPanel.visibility = View.GONE
                     val movies = (it.response as MovieResponse).data
                     for(i in movies){
                         val cardView = createCardView(
@@ -85,6 +86,7 @@ class HomeFragment : Fragment() {
                     binding.loadingPanel.visibility = View.GONE
                 }
                 is Resource.Success -> {
+                    binding.loadingPanel.visibility = View.GONE
                    val movies = (it.response as MovieResponse).data
                     for(i in movies){
                         val cardView = createCardView(
@@ -107,6 +109,7 @@ class HomeFragment : Fragment() {
                     binding.loadingPanel.visibility = View.GONE
                 }
                 is Resource.Success -> {
+                    binding.loadingPanel.visibility = View.GONE
                     val movies = (it.response as MovieResponse).data
                     for(i in movies){
                         val cardView = createCardView(
