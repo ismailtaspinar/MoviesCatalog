@@ -17,7 +17,7 @@
         android:padding="3dp"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.itapps.moviescatalog.common.CustomTextInputEditText
+        <com.canalperenozcan.movieassistant.common.CustomTextInputEditText
             android:id="@+id/input"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

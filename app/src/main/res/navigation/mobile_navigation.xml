@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_search"
-        android:name="com.itapps.moviescatalog.ui.search.SearchFragment"
+        android:name="com.canalperenozcan.movieassistant.ui.search.SearchFragment"
         tools:layout="@layout/fragment_search" >
         <action
             android:id="@+id/action_navigation_search_to_detailsFragment"
@@ -16,7 +16,7 @@
 
     <fragment
         android:id="@+id/navigation_watchlist"
-        android:name="com.itapps.moviescatalog.ui.watch_list.WatchListFragment"
+        android:name="com.canalperenozcan.movieassistant.ui.watch_list.WatchListFragment"
         tools:layout="@layout/fragment_watchlist" >
         <action
             android:id="@+id/action_navigation_watchlist_to_detailsFragment"
@@ -25,7 +25,7 @@
 
     <fragment
         android:id="@+id/navigation_favorites"
-        android:name="com.itapps.moviescatalog.ui.favorites.FavoritesFragment"
+        android:name="com.canalperenozcan.movieassistant.ui.favorites.FavoritesFragment"
         tools:layout="@layout/fragment_favorites" >
         <action
             android:id="@+id/action_navigation_favorites_to_detailsFragment"
@@ -33,7 +33,7 @@
     </fragment>
     <fragment
         android:id="@+id/detailsFragment"
-        android:name="com.itapps.moviescatalog.ui.details.DetailsFragment"
+        android:name="com.canalperenozcan.movieassistant.ui.details.DetailsFragment"
         tools:layout="@layout/fragment_details" >
         <argument android:name="id"
             app:argType="string" />
@@ -43,7 +43,7 @@
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.itapps.moviescatalog.ui.home.HomeFragment"
+        android:name="com.canalperenozcan.movieassistant.ui.home.HomeFragment"
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_homeFragment_to_detailsFragment"

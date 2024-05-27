@@ -11,14 +11,14 @@ def localProperties = new Properties()
 localProperties.load(new FileInputStream(localPropertiesFile))
 
 android {
-    namespace 'com.itapps.moviescatalog'
+    namespace 'com.canalperenozcan.movieassistant'
     compileSdk 33
 
     buildFeatures {
         buildConfig = true
     }
     defaultConfig {
-        applicationId "com.itapps.moviescatalog"
+        applicationId "com.canalperenozcan.movieassistan"
         minSdk 26
         targetSdk 33
         versionCode 1
